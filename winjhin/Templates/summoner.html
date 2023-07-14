@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/summoner.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/stat-icons.css') }}">
+        <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Righteous&family=Russo+One&display=swap" rel="stylesheet">
+        <script src="{{ url_for('static', filename='javascript/top-champs.js') }}"></script>
+        <title>{{ summoner_info['name'] }}</title>
+        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='title-logo.ico') }}">
+        {% set wallpaperchamp = "css/champ-wallpapers/%s.png" % last20List[0] %}
+        <style>
+            body {
+                background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0vh, rgba(0,0,0,1) 80vh), url("{{ url_for('static', filename=wallpaperchamp) }}");
+            }
+        </style>
+    </head>
+    <body>
+        <div id="loader">
+            <img src="{{ url_for('static', filename='css/loading/blossom-alone.svg') }}">
+            <p class="loading-text">Setting the stage</p>
+        </div>
+        <div class="navbar-container" id="navbar">
+            <div class="navbar-logo">
+                <a href="/">
+                    <img style="width: 228px; height: 60px;" src="{{ url_for('static', filename='css/loading/blossom-draft.svg') }}">
+                </a>
+            </div>
+            <svg style="position: absolute;" xmlns="http://www.w3.org/2000/svg" width="246.434" height="34.473" viewBox="0 0 65.202 9.121">
+                <g id="navbar-loader" stroke="#F73560" fill="none" stroke-width="1.565">
+                  <path d="M4.486 6.392C2.384 6.072 1.512 3.494 3 2.005c.543-.543 1.094-.772 1.852-.772.618 0 1.065.144 1.569.506l.109.078-.25.42c-.138.23-.267.418-.286.418-.019 0-.072-.04-.118-.091-.045-.05-.218-.152-.383-.227-.798-.358-1.758.02-2.137.842-.161.35-.147.959.031 1.328.147.303.446.607.769.778.177.094.284.112.672.112.283 0 .522-.025.619-.065l.157-.067V3.82h.922v1.986l-.157.118c-.5.376-1.255.563-1.883.468z" stroke-width=".2871149"/>
+                  <path d="M8.44 6.42c-.556-.11-1.08-.528-1.33-1.064-.298-.634-.216-1.554.187-2.1.54-.73 1.53-.964 2.382-.563.241.113.702.504.698.592 0 .03-.404.537-.896 1.124l-.894 1.068.205.016c.318.025.54-.066.752-.307l.19-.216.329.365.328.366-.224.214a1.915 1.915 0 01-1.727.504zm.133-2.193c.524-.705.543-.739.437-.779-.068-.026-.212-.02-.37.015a.919.919 0 00-.718.669c-.097.335-.055.84.07.833.018 0 .28-.333.58-.738z" stroke-width=".2871149"/>
+                  <path d="M12.242 6.342a1.913 1.913 0 01-.487-.308c-.455-.409-.594-.845-.595-1.859V3.63h-.437v-.922h.437V1.202h.971v1.505h1.456v.922H12.13v.692c0 .604.012.711.096.85.171.28.35.35.887.35l.473.001v.922l-.546-.002c-.425-.002-.602-.024-.799-.1z" stroke-width=".2871149"/>
+                  <path d="M15.502 6.342a1.912 1.912 0 01-.488-.308c-.454-.409-.594-.845-.595-1.859V3.63h-.437v-.922h.437V1.202h.971v1.505h1.456v.922H15.39v.692c0 .604.012.711.097.85.17.28.35.35.886.35l.473.001v.922l-.546-.002c-.425-.002-.602-.024-.798-.1z" stroke-width=".2871149"/>
+                  <path d="M17.442 4.579V2.71h.922v3.738h-.922zm.14-2.242c-.375-.232-.378-.86-.005-1.053.408-.211.879-.008.958.415.094.503-.514.91-.953.638z" stroke-width=".2871149"/>
+                  <path d="M18.971 4.572V2.703h.12c.078 0 .166.059.255.17.147.185.214.207.302.101.03-.037.157-.116.28-.173a1.674 1.674 0 012.226.762l.143.28.015 1.3.015 1.298h-.928V5.295c0-1.287-.021-1.387-.334-1.6-.35-.237-.82-.116-1.047.27-.092.156-.101.263-.115 1.323l-.016 1.153h-.916z" stroke-width=".2871149"/>
+                  <path d="M24.214 7.563v-.467h.352c.534-.003.82-.16.978-.54l.072-.172-.217.11c-.659.333-1.702.096-2.185-.498-.32-.394-.426-.72-.43-1.327-.002-.475.009-.532.153-.836.314-.664.887-1.083 1.56-1.139.43-.036.776.065 1.201.35l.326.218.16-.182c.09-.1.163-.199.164-.22 0-.02.058-.035.126-.035h.124l-.015 1.88-.015 1.881-.15.316a2.01 2.01 0 01-.942.941c-.268.126-.387.151-.789.167l-.473.02zm1.004-2.05c.55-.442.57-1.197.043-1.66-.46-.404-1.158-.261-1.442.296-.15.294-.117.863.067 1.141.196.296.424.403.823.385.278-.012.351-.035.51-.162z" stroke-width=".2871149"/>
+                  <path d="M28.852 5.996v-.485h1.168c.765 0 1.205-.019 1.275-.054.183-.094.273-.25.274-.472.001-.165-.027-.238-.134-.345-.134-.134-.142-.135-.91-.16-.896-.03-1.116-.089-1.454-.386-.32-.283-.472-.607-.5-1.071-.02-.35-.011-.4.131-.69.18-.364.49-.66.82-.782.19-.07.45-.088 1.527-.106l1.298-.02v1.028h-1.211c-.768 0-1.254.02-1.327.053-.245.111-.344.454-.207.72.105.2.266.24 1.072.256.712.014.736.018 1.052.174.366.18.534.354.71.736.267.58.116 1.271-.375 1.711-.393.354-.524.38-1.959.38l-1.25-.001z" stroke-width=".2871149"/>
+                  <path d="M36.588 4.571L36.58 6.44h-.12c-.077 0-.165-.06-.253-.172-.147-.185-.214-.208-.302-.102a1.122 1.122 0 01-.281.172c-.84.39-1.809.054-2.223-.771l-.141-.282-.01-1.299-.009-1.298.464.002.464.002-.005 1.145c-.005 1.288.015 1.388.327 1.602.349.239.82.12 1.048-.266.093-.155.102-.262.121-1.322l.02-1.153.458.002.458.002z" stroke-width=".2871149"/>
+                  <path d="M37.298 4.594V2.725h.117c.072 0 .167.06.245.152.117.139.134.145.211.075.184-.166.515-.273.849-.274.366-.002.621.084.82.273l.129.125.164-.126c.262-.199.493-.274.85-.273.566 0 1.038.312 1.285.849.106.232.112.304.126 1.59l.015 1.347h-.928V5.272c0-1.278-.024-1.437-.248-1.594-.223-.156-.602-.057-.713.186-.04.088-.058.509-.058 1.363v1.236h-.918l-.014-1.29-.014-1.291-.159-.142c-.214-.19-.44-.19-.654 0l-.158.142-.015 1.29-.014 1.29h-.918z" stroke-width=".2871149"/>
+                  <path d="M42.803 4.618V2.75h.117c.071 0 .166.06.244.152.118.14.135.145.212.075.183-.166.515-.273.848-.274.367-.001.622.084.82.274l.13.124.164-.125c.261-.2.493-.274.849-.274.567.001 1.039.313 1.285.85.107.231.113.303.127 1.589l.015 1.347h-.928v-1.19c0-1.279-.025-1.438-.248-1.595-.223-.156-.602-.057-.713.187-.04.088-.058.508-.058 1.363v1.235h-.918l-.014-1.29-.015-1.29-.158-.142c-.215-.192-.44-.192-.654 0l-.159.141-.014 1.29-.014 1.291h-.918z" stroke-width=".2871149"/>
+                  <path d="M49.562 6.54c-1.2-.322-1.771-1.692-1.194-2.861.206-.416.445-.646.902-.865.286-.138.357-.152.776-.15.581.003.907.12 1.285.467.957.874.78 2.567-.335 3.221-.24.141-.707.267-.972.263a2.36 2.36 0 01-.462-.074zm.857-.944c.624-.236.802-1.201.317-1.712-.198-.209-.394-.29-.69-.29-.313 0-.509.089-.718.327-.436.496-.276 1.36.306 1.653.169.085.588.097.785.022z" stroke-width=".2871149"/>
+                  <path d="M58.017 6.6c-.556-.11-1.08-.528-1.332-1.064-.297-.633-.214-1.554.189-2.1.54-.73 1.529-.964 2.382-.563.24.113.701.504.698.592-.002.031-.405.537-.897 1.125l-.894 1.067.205.016c.319.025.54-.065.752-.307l.19-.216.33.366.328.365-.224.215a1.915 1.915 0 01-1.727.504zm.132-2.193c.524-.705.543-.738.437-.779-.067-.025-.212-.02-.37.016a.919.919 0 00-.718.668c-.097.336-.055.841.07.834.019-.001.28-.334.581-.739z" stroke-width=".2871149"/>
+                  <path d="M52.529 4.647V2.778h.12c.077 0 .165.059.254.17.147.185.214.207.302.101.031-.037.158-.116.28-.173a1.674 1.674 0 012.227.762l.142.28.015 1.3.015 1.298h-.928V5.37c0-1.287-.02-1.387-.334-1.6-.35-.237-.82-.116-1.047.27-.091.156-.1.263-.115 1.323l-.015 1.153h-.916z" stroke-width=".2871149"/>
+                  <path d="M60.7 4.692c0-1.816.003-1.869.094-1.869.056 0 .158.089.25.219.087.12.166.218.177.218.01 0 .089-.052.174-.116.305-.23.51-.285 1.162-.31l.619-.022v.925l-.531.017c-.586.018-.7.065-.914.38-.105.155-.109.198-.109 1.294V6.56H60.7z" stroke-width=".2871149"/>
+                </g>
+            </svg>
+            <div class="navbar-form-container" id="navbar-form-container">
+                <form action="/" method="POST" class="navbar-form" id="navbar-form">
+                    <input type="text" name="summoner_name" id="summoner_name" placeholder=" " autocomplete="off" required>
+                    <label class="label-name" for="summoner_name">
+                        <span class="label-content">Search for summoner:</span>
+                    </label>
+                    <input type="submit" class="form-submit">
+                </form>
+            </div>
+        </div>
+        <div class="contents" id="contents">
+            <div class="summoner-summary">
+                <div class="summoner-general">
+                    <div class="summoner-level">
+                        {% set iconRoute = "dragontail-11.7.1/11.7.1/img/profileicon/%s.png" % summoner_info['profileIconId'] %}
+                        <img src="{{ url_for('static', filename=iconRoute) }}">
+                        <h2>{{ summoner_info['summonerLevel'] }}</h2>
+                    </div>
+                    <h1 class="summoner-name"><span>{{ summoner_info['name'] }}</span></h1>
+                </div>
+                <div class="summoner-ranked-basic">
+                    <div class="ranked-division">
+                        {% set emblemRoute = "ranked_emblems/%s.png" % summoner_info['tier'] %}
+                        <img src="{{ url_for('static', filename=emblemRoute) }}">
+                        <h2 id="{{ summoner_info['tier'] }}">{{ summoner_info['tier'] }} {{ summoner_info['rank'] }}
+                        <br>{{ summoner_info['lp'] }} LP</h2>
+                    </div>
+                    <div class="ranked-winrate">
+                        <h2><span style="color: #65DD68;"> {{ summoner_info['wins'] }}</span> Wins / <span style="color: #EE4E4E;">{{ summoner_info['losses'] }}</span> Losses</h2>
+                        <h2>Win Rate: {{ summoner_info['winrate'] }}%</h2>
+                    </div>
+                    <div class="ranked-role-distribution">
+                        <p style="font-family: sans-serif;font-size: 11px;position: absolute;margin-top: 95px;margin-right: 10px;display: inline-block;color: #707393;"><i>*Data taken from last ~100 games</i></p>
+                        <table>
+                            <tr>
+                                <td class="role-distribution-header">Top</td>
+                                <td class="role-distribution-header">Jun</td>
+                                <td class="role-distribution-header">Mid</td>
+                                <td class="role-distribution-header">Adc</td>
+                                <td class="role-distribution-header">Sup</td>
+                            </tr>
+                            <tr>
+                                <td>{{ roleStats['top']['gamesPlayed'] }}g</td>
+                                <td>{{ roleStats['jungle']['gamesPlayed'] }}g</td>
+                                <td>{{ roleStats['mid']['gamesPlayed'] }}g</td>
+                                <td>{{ roleStats['bot']['gamesPlayed'] }}g</td>
+                                <td>{{ roleStats['supp']['gamesPlayed'] }}g</td>
+                            </tr>
+                            <tr>
+                                <td>{{ roleStats['top']['winrate'] }}%</td>
+                                <td>{{ roleStats['jungle']['winrate'] }}%</td>
+                                <td>{{ roleStats['mid']['winrate'] }}%</td>
+                                <td>{{ roleStats['bot']['winrate'] }}%</td>
+                                <td>{{ roleStats['supp']['winrate'] }}%</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="summoner-most-played">
+                    <div style="border-radius: 15px 15px 0px 0px;" class="pick-table">
+                        <button style="border-style: hidden solid solid hidden;" class="tablinks" onclick="openTopChamps(event, 'last-20')" id="defaultOpen">Last 20</button>
+                        <button style="border-style: hidden hidden solid solid;" class="tablinks" onclick="openTopChamps(event, 'all-games')">All Games</button>
+                    </div>
+                    <table id="last-20" class="most-played-table">
+                        <tr>
+                            <td class="most-played-header">Champion</td>
+                            <td class="most-played-header">Games</td>
+                            <td class="most-played-header">Winrate</td>
+                            <td class="most-played-header" style="text-align: center;">Kda</td>
+                        </tr>
+                        <tr>
+                            {% set champIcon0 = "dragontail-11.7.1/11.7.1/img/champion/%s.png" % last20List[0] %}
+                            <td class="most-played-champion"><img src="{{ url_for('static', filename=champIcon0) }}" style="width: 1.2rem; height: 1.2rem;"> {{ last20List[0] }}</td>
+                            <td>{{ last20Dict[last20List[0]] }}</td>
+                            <td>{{ last20Top5[0]['winrate'] }}%</td>
+                            <td>{{ last20Top5[0]['avgKills'] }} / {{ last20Top5[0]['avgDeaths'] }} / {{ last20Top5[0]['avgAssists'] }} ({{ last20Top5[0]['avgKda'] }})</td>
+                        </tr>
+                        <tr>
+                            {% set champIcon1 = "dragontail-11.7.1/11.7.1/img/champion/%s.png" % last20List[1] %}
+                            <td class="most-played-champion"><img src="{{ url_for('static', filename=champIcon1) }}" style="width: 1.2rem; height: 1.2rem;"> {{ last20List[1] }}</td>
+                            <td>{{ last20Dict[last20List[1]] }}</td>
+                            <td>{{ last20Top5[1]['winrate'] }}%</td>
+                            <td>{{ last20Top5[1]['avgKills'] }} / {{ last20Top5[1]['avgDeaths'] }} / {{ last20Top5[1]['avgAssists'] }} ({{ last20Top5[1]['avgKda'] }})</td>
+                        </tr>
+                        <tr>
+                            {% set champIcon2 = "dragontail-11.7.1/11.7.1/img/champion/%s.png" % last20List[2] %}
+                            <td class="most-played-champion"><img src="{{ url_for('static', filename=champIcon2) }}" style="width: 1.2rem; height: 1.2rem;"> {{ last20List[2] }}</td>
+                            <td>{{ last20Dict[last20List[2]] }}</td>
+                            <td>{{ last20Top5[2]['winrate'] }}%</td>
+                            <td>{{ last20Top5[2]['avgKills'] }} / {{ last20Top5[2]['avgDeaths'] }} / {{ last20Top5[2]['avgAssists'] }} ({{ last20Top5[2]['avgKda'] }})</td>
+                        </tr>
+                        <tr>
+                            {% set champIcon3 = "dragontail-11.7.1/11.7.1/img/champion/%s.png" % last20List[3] %}
+                            <td class="most-played-champion"><img src="{{ url_for('static', filename=champIcon3) }}" style="width: 1.2rem; height: 1.2rem;"> {{ last20List[3] }}</td>
+                            <td>{{ last20Dict[last20List[3]] }}</td>
+                            <td>{{ last20Top5[3]['winrate'] }}%</td>
+                            <td>{{ last20Top5[3]['avgKills'] }} / {{ last20Top5[3]['avgDeaths'] }} / {{ last20Top5[3]['avgAssists'] }} ({{ last20Top5[3]['avgKda'] }})</td>
+                        </tr>
+                        <tr>
+                            {% set champIcon4 = "dragontail-11.7.1/11.7.1/img/champion/%s.png" % last20List[4] %}
+                            <td class="most-played-champion"><img src="{{ url_for('static', filename=champIcon4) }}" style="width: 1.2rem; height: 1.2rem;"> {{ last20List[4] }}</td>
+                            <td>{{ last20Dict[last20List[4]] }}</td>
+                            <td>{{ last20Top5[4]['winrate'] }}%</td>
+                            <td>{{ last20Top5[4]['avgKills'] }} / {{ last20Top5[4]['avgDeaths'] }} / {{ last20Top5[4]['avgAssists'] }} ({{ last20Top5[4]['avgKda'] }})</td>
+                        </tr>
+                    </table>
+                    <table id="all-games" class="most-played-table">
+                        <tr>
+                            <td class="most-played-header">Champion</td>
+                            <td class="most-played-header">Games</td>
+                            <td class="most-played-header">Winrate</td>
+                            <td class="most-played-header" style="text-align: center;">Kda</td>
+                        </tr>
+                        <tr>
+                            {% set champIcon0 = "dragontail-11.7.1/11.7.1/img/champion/%s.png" % championList[0] %}
+                            <td class="most-played-champion"><img src="{{ url_for('static', filename=champIcon0) }}" style="width: 1.2rem; height: 1.2rem;"> {{ championList[0] }}</td>
+                            <td>{{ championDict[championList[0]] }}</td>
+                            <td>{{ statsOnTop5[0]['winrate'] }}%</td>
+                            <td>{{ statsOnTop5[0]['avgKills'] }} / {{ statsOnTop5[0]['avgDeaths'] }} / {{ statsOnTop5[0]['avgAssists'] }} ({{ statsOnTop5[0]['avgKda'] }})</td>
+                        </tr>
+                        <tr>
+                            {% set champIcon1 = "dragontail-11.7.1/11.7.1/img/champion/%s.png" % championList[1] %}
+                            <td class="most-played-champion"><img src="{{ url_for('static', filename=champIcon1) }}" style="width: 1.2rem; height: 1.2rem;"> {{ championList[1] }}</td>
+                            <td>{{ championDict[championList[1]] }}</td>
+                            <td>{{ statsOnTop5[1]['winrate'] }}%</td>
+                            <td>{{ statsOnTop5[1]['avgKills'] }} / {{ statsOnTop5[1]['avgDeaths'] }} / {{ statsOnTop5[1]['avgAssists'] }} ({{ statsOnTop5[1]['avgKda'] }})</td>
+                        </tr>
+                        <tr>
+                            {% set champIcon2 = "dragontail-11.7.1/11.7.1/img/champion/%s.png" % championList[2] %}
+                            <td class="most-played-champion"><img src="{{ url_for('static', filename=champIcon2) }}" style="width: 1.2rem; height: 1.2rem;"> {{ championList[2] }}</td>
+                            <td>{{ championDict[championList[2]] }}</td>
+                            <td>{{ statsOnTop5[2]['winrate'] }}%</td>
+                            <td>{{ statsOnTop5[2]['avgKills'] }} / {{ statsOnTop5[2]['avgDeaths'] }} / {{ statsOnTop5[2]['avgAssists'] }} ({{ statsOnTop5[2]['avgKda'] }})</td>
+                        </tr>
+                        <tr>
+                            {% set champIcon3 = "dragontail-11.7.1/11.7.1/img/champion/%s.png" % championList[3] %}
+                            <td class="most-played-champion"><img src="{{ url_for('static', filename=champIcon3) }}" style="width: 1.2rem; height: 1.2rem;"> {{ championList[3] }}</td>
+                            <td>{{ championDict[championList[3]] }}</td>
+                            <td>{{ statsOnTop5[3]['winrate'] }}%</td>
+                            <td>{{ statsOnTop5[3]['avgKills'] }} / {{ statsOnTop5[3]['avgDeaths'] }} / {{ statsOnTop5[3]['avgAssists'] }} ({{ statsOnTop5[3]['avgKda'] }})</td>
+                        </tr>
+                        <tr>
+                            {% set champIcon4 = "dragontail-11.7.1/11.7.1/img/champion/%s.png" % championList[4] %}
+                            <td class="most-played-champion"><img src="{{ url_for('static', filename=champIcon4) }}" style="width: 1.2rem; height: 1.2rem;"> {{ championList[4] }}</td>
+                            <td>{{ championDict[championList[4]] }}</td>
+                            <td>{{ statsOnTop5[4]['winrate'] }}%</td>
+                            <td>{{ statsOnTop5[4]['avgKills'] }} / {{ statsOnTop5[4]['avgDeaths'] }} / {{ statsOnTop5[4]['avgAssists'] }} ({{ statsOnTop5[4]['avgKda'] }})</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="summoner-match-history">
+                {% for userMatchStats in matchHistoryData %}    
+                    {% set outcomeColor = userMatchStats['outcome'].lower() %}
+                    <div class="match-history-game" id="match-history-{{ outcomeColor }}">
+                        <div class="match-outcome">
+                            <div class="actual-outcome-{{ outcomeColor }}">
+                                <h1>{{ userMatchStats['outcome'] }}</h1>
+                                <h3 style="color: #898C9E;">{{ userMatchStats['gameDuration']['minutes'] }}m{{ userMatchStats['gameDuration']['seconds'] }}s</h3>
+                            </div>
+                            <div class="time-since-match">
+                                <h3 style="margin-bottom: 20px;">{{ userMatchStats['timeSince'] }}</h3>
+                            </div>
+                        </div>
+                        <div class="match-info">
+                            <div class="match-teams">
+                                <div class="player-matchup">
+                                    {% if userMatchStats['teamColor'] == 'blue' %}
+                                        {% set rolePlayed = "role_icons/%s-icon.svg" % userMatchStats['gamePicks']['userPick']['role'].lower() %}
+                                        <img style="margin-right: 4%; height: 25px; width: 25px; border-radius: 0;" src="{{ url_for('static', filename=rolePlayed) }}">
+                                        <div class="player-matchup-container" style="margin-right: 7%">
+                                            {% set champPlayed = "dragontail-11.7.1/11.7.1/img/champion/%s.png" % userMatchStats['gamePicks']['userPick']['champ'] %}
+                                            <img id="match-history-{{ outcomeColor }}" style="margin-right: 7%; height: 56px; width: 56px;" src="{{ url_for('static', filename=champPlayed) }}">
+                                            <div class="matchup-tooltip">
+                                                <span class="matchup-tooltip-text">{{ userMatchStats['gamePicks']['userPick']['champ'] }}</span>
+                                            </div>
+                                        </div>
+                                        <h2>VS</h2>
+                                        <div class="player-matchup-container" style="margin-left: 7%;">
+                                            {% set champAgainst = "dragontail-11.7.1/11.7.1/img/champion/%s.png" % userMatchStats['gamePicks']['userOpponent']['champ'] %}
+                                            <img style="margin-left: 7%; height: 56px; width: 56px;" src="{{ url_for('static', filename=champAgainst) }}">
+                                            <div class="matchup-tooltip">
+                                                <span class="matchup-tooltip-text">{{ userMatchStats['gamePicks']['userOpponent']['champ'] }}</span>
+                                            </div>
+                                        </div>
+                                        <img style="margin-left: 4%; height: 25px; width: 25px; border-radius: 0;" src="{{ url_for('static', filename=rolePlayed) }}">
+                                    {% else %}
+                                        {% set rolePlayed = "role_icons/%s-icon.svg" % userMatchStats['gamePicks']['userPick']['role'].lower() %}
+                                        <img style="margin-right: 4%; height: 25px; width: 25px; border-radius: 0;" src="{{ url_for('static', filename=rolePlayed) }}">
+                                        <div class="player-matchup-container" style="margin-right: 7%;">
+                                            {% set champAgainst = "dragontail-11.7.1/11.7.1/img/champion/%s.png" % userMatchStats['gamePicks']['userOpponent']['champ'] %}
+                                            <img style="margin-right: 7%; height: 56px; width: 56px;" src="{{ url_for('static', filename=champAgainst) }}">
+                                            <div class="matchup-tooltip">
+                                                <span class="matchup-tooltip-text">{{ userMatchStats['gamePicks']['userOpponent']['champ'] }}</span>
+                                            </div>
+                                        </div>
+                                        <h2>VS</h2>
+                                        <div class="player-matchup-container" style="margin-left: 7%;">
+                                            {% set champPlayed = "dragontail-11.7.1/11.7.1/img/champion/%s.png" % userMatchStats['gamePicks']['userPick']['champ'] %}
+                                            <img id="match-history-{{ outcomeColor }}" style="margin-left: 7%; height: 56px; width: 56px;" src="{{ url_for('static', filename=champPlayed) }}">
+                                            <div class="matchup-tooltip">
+                                                <span class="matchup-tooltip-text">{{ userMatchStats['gamePicks']['userPick']['champ'] }}</span>
+                                            </div>
+                                        </div>
+                                        <img style="margin-left: 4%; height: 25px; width: 25px; border-radius: 0;" src="{{ url_for('static', filename=rolePlayed) }}">
+                                    {% endif %}
+                                </div>
+                                <div class="team-matchups">
+                                    {% if userMatchStats['teamColor'] == 'blue' %}
+                                        {% for key, value in userMatchStats['gamePicks']['userTeam'].items() %}
+                                            <div class="other-players">
+                                                {% set thisTeammateRole = "role_icons/%s-icon.svg" % key %}
+                                                <img style="height: 14px; width: 14px;" src="{{ url_for('static', filename=thisTeammateRole) }}">
+                                                <div class="other-players-container">
+                                                    {% set thisTeammateChamp = "dragontail-11.7.1/11.7.1/img/champion/%s.png" % value %}
+                                                    <img class="other-players-champs" src="{{ url_for('static', filename=thisTeammateChamp) }}">
+                                                    <div class="team-tooltip">
+                                                        <span class="team-tooltip-text">{{ value }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}    
+                                        <div></div>
+                                        {% for key, value in userMatchStats['gamePicks']['enemyTeam'].items() %}
+                                            <div class="other-players">
+                                                {% set thisEnemyRole = "role_icons/%s-icon.svg" % key %}
+                                                <img style="height: 14px; width: 14px;" src="{{ url_for('static', filename=thisEnemyRole) }}">
+                                                <div class="other-players-container">
+                                                    {% set thisEnemyChamp = "dragontail-11.7.1/11.7.1/img/champion/%s.png" % value %}
+                                                    <img class="other-players-champs" src="{{ url_for('static', filename=thisEnemyChamp) }}">
+                                                    <div class="team-tooltip">
+                                                        <span class="team-tooltip-text">{{ value }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}    
+                                    {% else %}
+                                        {% for key, value in userMatchStats['gamePicks']['enemyTeam'].items() %}
+                                            <div class="other-players">
+                                                {% set thisEnemyRole = "role_icons/%s-icon.svg" % key %}
+                                                <img style="height: 14px; width: 14px;" src="{{ url_for('static', filename=thisEnemyRole) }}">
+                                                <div class="other-players-container">
+                                                    {% set thisEnemyChamp = "dragontail-11.7.1/11.7.1/img/champion/%s.png" % value %}
+                                                    <img class="other-players-champs" src="{{ url_for('static', filename=thisEnemyChamp) }}">
+                                                    <div class="team-tooltip">
+                                                        <span class="team-tooltip-text">{{ value }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}   
+                                        <div></div>
+                                        {% for key, value in userMatchStats['gamePicks']['userTeam'].items() %}
+                                            <div class="other-players">
+                                                {% set thisTeammateRole = "role_icons/%s-icon.svg" % key %}
+                                                <img style="height: 14px; width: 14px;" src="{{ url_for('static', filename=thisTeammateRole) }}">
+                                                <div class="other-players-container">
+                                                    {% set thisTeammateChamp = "dragontail-11.7.1/11.7.1/img/champion/%s.png" % value %}
+                                                    <img class="other-players-champs" src="{{ url_for('static', filename=thisTeammateChamp) }}">
+                                                    <div class="team-tooltip">
+                                                        <span class="team-tooltip-text">{{ value }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %} 
+                                    {% endif %}
+                                </div>
+                                <div class="team-objectives">
+                                    <div class="objectives-slain">
+                                        <svg class="tur-damage-icon"xmlns="http://www.w3.org/2000/svg" width="198.667" height="198.667" viewBox="0 0 52.564 52.564" version="1.1" id="svg8">
+                                            <g class="tower-blue" transform="translate(-49.364 -81.82)">
+                                              <path d="M56.176 133.84c-.334-.334-.437-3.943-.437-15.244 0-13.412-.056-14.868-.597-15.466-.56-.619-.56-.72 0-1.67.833-1.409.747-2.876-.326-5.556-.848-2.12-.89-2.465-.528-4.293.69-3.478 2.601-9.622 2.9-9.323.45.45 2.75 9.142 2.808 10.608.029.722-.362 2.492-.868 3.933-1.114 3.173-1.119 3.313-.15 4.624l.77 1.04-.77.82c-.73.777-.77 1.136-.77 6.882 0 3.335.091 6.063.202 6.063.111 0 .879-.397 1.706-.881l1.504-.882-.169-2.905c-.125-2.165-.348-3.148-.876-3.862-.6-.813-.673-1.284-.48-3.126.124-1.192.527-2.848.894-3.678.847-1.914 2.97-4.278 4.602-5.12l1.26-.651 2.016 1.07c2.167 1.15 2.77 1.126 3.572-.143 1.23-1.95 1.127-2.234-1.323-3.604-4.55-2.544-5.104-3.48-3.782-6.38.695-1.526 2.39-3.705 2.882-3.705.167 0 .084.525-.184 1.167-.268.641-.538 1.779-.6 2.528-.097 1.195.019 1.438.947 1.984.582.342 1.48.726 1.995.853.79.194 1.012.073 1.414-.77.938-1.966 5.404-2.43 7.502-.78.5.393.907.94.907 1.217 0 .709.785.628 2.637-.272 1.803-.876 1.907-1.265 1.071-4.019-.289-.952-.527-1.8-.529-1.886-.002-.084.492.312 1.099.882 1.334 1.253 2.407 3.459 2.417 4.969.01 1.345-1.575 2.873-4.44 4.277-1.206.592-1.902 1.156-1.902 1.542 0 1.154.693 2.429 1.528 2.81.701.319 1.155.2 2.806-.732 1.913-1.079 2.003-1.095 3.07-.543 2.938 1.52 5.139 4.996 5.603 8.85.372 3.09.047 3.459-1.615 1.839-2.759-2.688-5.82-3.117-8.911-1.25-2.34 1.414-3.995 3.741-4.992 7.024-.615 2.027-.715 3.081-.585 6.22.187 4.515 1.013 6.982 3.263 9.744 1.38 1.694 1.46 1.902.98 2.526-.286.374-.828 1.355-1.203 2.18l-.683 1.498h-7.908l-.77-1.675c-.423-.922-1.323-2.322-2-3.112l-1.23-1.437-.115-5.266c-.09-4.106-.249-5.538-.724-6.501-.335-.68-.74-1.87-.898-2.646l-.288-1.411-.452 2.527c-.257 1.44-.706 2.75-1.042 3.045-.325.285-2.258.911-4.295 1.392l-3.704.873-.177 7.018c-.168 6.694-.209 7.022-.886 7.119-.39.056-.906-.095-1.146-.335zm22.903-38.96l-.12-4.092 1.09.24c1.197.262 1.272.105.715-1.493-.439-1.259-1.742-1.828-1.742-.76 0 .533-.255.672-1.235.672-1.006 0-1.234-.133-1.234-.718 0-1.087-1.238-.287-1.727 1.116-.517 1.483-.55 1.426.757 1.3l1.146-.11-.12 3.968-.12 3.969h2.71l-.12-4.092zm6.613 33.963c-1.89-.998-3.521-3.057-4.582-5.783-1.12-2.88-1.147-8.215-.057-11.16 1.507-4.074 3.931-6.278 7.162-6.511 1.76-.128 2.306-.011 3.659.782 2.662 1.56 4.362 4.59 5.166 9.207.919 5.275-1.894 11.833-5.844 13.627-1.915.87-3.644.82-5.504-.162z" id="path871" fill="#000" stroke-width=".353"/>
+                                            </g>
+                                          </svg>
+                                        <p>{{ userMatchStats['teamStats']['blueTowerKills'] }}</p>
+                                        <div class="objective-tooltip">
+                                            <span class="objective-tooltip-text">Towers Destroyed</span>
+                                        </div>
+                                    </div>
+                                    <div class="objectives-slain">
+                                        <svg class="dragon-icon"xmlns="http://www.w3.org/2000/svg" width="197.333" height="197.333" viewBox="0 0 52.211 52.211" version="1.1" id="svg879">
+                                            <g class="dragon-blue" transform="translate(82.399 -42.686)">
+                                              <path d="M-59.326 93.558c-1.863-.956-2.42-1.428-2.584-2.188-.593-2.744-2.068-7.559-2.986-9.744-.57-1.357-.98-2.525-.91-2.595.332-.332 2.38 2.85 3.15 4.892.474 1.261 1.224 2.997 1.666 3.857l.803 1.564.462-1.12c.253-.616.602-1.206.773-1.312.172-.106.84.464 1.487 1.268l1.174 1.46 1.317-1.484c1.382-1.557 1.485-1.543 2.288.304.377.867.404.847 1.37-1.049.542-1.062 1.272-2.767 1.623-3.787.567-1.648 2.719-4.883 3.036-4.565.067.067-.28 1.03-.77 2.141-.8 1.807-2.6 7.618-3.153 10.17-.166.77-.718 1.226-2.664 2.206-1.35.68-2.736 1.228-3.08 1.218-.345-.01-1.695-.566-3.002-1.236zm1.461-8.519l-1.445-1.305-.606.804c-.527.698-.664.735-1.043.279-.24-.29-.785-1.39-1.212-2.449-.559-1.383-1.321-2.396-2.717-3.608-3.049-2.647-4.84-4.992-5.09-6.662-.344-2.29-1.787-5.057-3.03-5.814-.608-.369-1.716-.769-2.464-.888-1.352-.217-1.361-.23-1.607-2.196-.747-5.982.77-13.336 3.812-18.483l1.147-1.94.212 3.175c.342 5.105 1.86 8.04 5.256 10.158.817.51 1.027.491 2.854-.258l1.972-.81 2.763 2.07c1.52 1.138 2.788 2.07 2.818 2.07.03 0 1.298-.932 2.818-2.07l2.763-2.07 1.97.802c2.214.901 2.453.843 4.64-1.133 2.16-1.952 3.237-4.606 3.481-8.583l.206-3.351 1.145 1.94c3.043 5.153 4.558 12.503 3.81 18.483-.245 1.966-.254 1.98-1.606 2.196-.748.12-1.856.519-2.463.888-1.241.755-2.687 3.523-3.028 5.798-.257 1.716-1.915 3.923-4.9 6.525-1.538 1.34-2.31 2.343-2.876 3.736-1.134 2.79-1.475 3.113-2.268 2.143l-.644-.787-1.362 1.323c-.75.728-1.475 1.323-1.612 1.323s-.899-.588-1.694-1.306zm.376-4.227c-.783-2.436-2.065-3.273-2.83-1.845-.216.405-.34.774-.276.82.064.047.696.434 1.404.86.709.425 1.387 1.031 1.508 1.346.443 1.155.613.124.194-1.18zm4.817-.399c1.227-.629 1.231-.64.593-1.43-.86-1.061-1.675-.702-2.375 1.046-.755 1.887-.758 2.88-.005 1.806.303-.433 1.107-1.073 1.787-1.422zm-6.503-9.838c-.591-.737-2.294-2.53-3.784-3.986l-2.709-2.645.156 2.043c.212 2.792.925 3.614 4.328 4.995 1.552.63 2.881 1.097 2.953 1.038.072-.058-.353-.709-.944-1.445zm8.045.438c2.147-.865 3.171-1.487 3.606-2.19.656-1.058 1.21-3.885.836-4.26-.25-.249-4.905 4.218-6.614 6.348-.584.728-1.01 1.32-.944 1.317.065-.003 1.467-.55 3.116-1.215z" id="path1456" fill="#000" stroke-width=".553" stroke="#000" stroke-opacity="1" stroke-miterlimit="4" stroke-dasharray="none"/>
+                                            </g>
+                                          </svg>
+                                        <p>{{ userMatchStats['teamStats']['blueDragonKills'] }}</p>
+                                        <div class="objective-tooltip">
+                                            <span class="objective-tooltip-text">Dragons Slain</span>
+                                        </div>
+                                    </div>
+                                    <div class="objectives-slain">
+                                        <svg class="obj-damage-icon"xmlns="http://www.w3.org/2000/svg" width="420.036" height="455.75" viewBox="0 0 111.134 120.584" version="1.1" id="svg8">
+                                            <g class="baron-face-blue" transform="translate(-36.47 -80.315)">
+                                              <path d="M73.287 198.786c-7.02-3.675-11.284-9.292-11.707-15.422-.11-1.612-.027-2.138.581-3.66 2.224-5.558 1.79-9.927-1.29-13.01-2.528-2.53-3.927-3.143-7.16-3.143-2.443 0-2.78.065-4.385.85-.955.468-2.285 1.332-2.954 1.922l-1.217 1.07-.28-.863c-.153-.475-.41-1.726-.57-2.781-.557-3.657.273-6.467 3.56-12.053 5.357-9.1 6.003-14.21 2.688-21.241-1.894-4.017-4.468-7.605-8.188-11.416l-2.126-2.177.351-.998c1.354-3.841 5.183-11.787 7.619-15.809 5.55-9.167 13.656-16.483 19.458-17.562.691-.129 1.257-.19 1.257-.138 0 .053-.925 1.199-2.055 2.546-3.928 4.68-6.85 9.306-8.316 13.165-1.42 3.737-1.113 9.081.741 12.9 3.094 6.376 10.852 9.854 21.98 9.854h3.235l.77-1.124c1.752-2.558 3.371-6.778 4.838-12.609.564-2.241 1.063-4.113 1.108-4.159.046-.045.224 1.028.395 2.387.502 3.97 2.763 9.51 5.87 14.38l1.054 1.654 2.586-.008c7.389-.023 12.6-1.75 17.065-5.653 6.548-5.725 8.318-12.632 5.16-20.135-1.23-2.921-5.729-9.417-7.85-11.333-1.208-1.092-1.307-1.39-.54-1.633 1.097-.348 5.221 1.568 8.199 3.81 3.681 2.77 8.566 8.465 11.716 13.659 2.611 4.304 7.863 15.418 7.863 16.64 0 .167-.726 1.015-1.612 1.884-5.724 5.608-9.867 12.74-10.547 18.154-.486 3.875.439 7.073 4.237 14.646 3.262 6.505 3.683 8.1 3.173 12.034-.457 3.525-.693 3.722-2.69 2.251-4.77-3.51-9.54-2.998-13.543 1.454-2.42 2.693-2.873 6.806-1.236 11.248 1.43 3.877 1.057 6.845-1.363 10.877-1.294 2.157-5.252 6.233-7.533 7.759-1.86 1.244-4.681 2.41-5.017 2.075-.085-.085.087-.935.382-1.89 1.14-3.69 2.202-9.956 2.07-12.206-.28-4.778-2.01-7.012-5.428-7.012h-1.29l-1.788 3.77-1.789 3.77-1.224-2.446c-.673-1.347-1.294-2.448-1.38-2.448-.086 0-.498.714-.915 1.588-.417.873-.839 1.587-.936 1.587-.098 0-.927-.952-1.842-2.117-.915-1.164-1.74-2.116-1.831-2.116-.092 0-.697.893-1.344 1.984-.647 1.092-1.24 1.983-1.316 1.981-.077-.002-.531-.716-1.01-1.587-.478-.872-.918-1.584-.976-1.584-.059 0-.679 1.07-1.379 2.378s-1.332 2.378-1.405 2.378c-.072 0-.84-1.678-1.703-3.727l-1.572-3.727-1.032.165c-2.392.383-4.288 2.042-5.15 4.509-1.045 2.993-.44 10.533 1.263 15.713.304.925.515 1.72.468 1.767-.047.046-1.036-.413-2.198-1.022z" id="path847" fill="#888" fill-opacity="1" stroke="#000" stroke-width="2.165" stroke-miterlimit="4" stroke-dasharray="none" stroke-opacity="1"/>
+                                            </g>
+                                            <g class="baron-eyes" transform="translate(-36.47 -80.315)" fill="#000" fill-opacity="1" stroke-miterlimit="4" stroke-dasharray="none" stroke-opacity="1">
+                                              <ellipse class="baron-eye" cx="119.251" cy="156.293" rx="3.591" ry="3.496" stroke="#000" stroke-width="2.165"/>
+                                              <ellipse class="baron-eye" cx="64.634" cy="156.199" rx="3.591" ry="3.496" stroke="#000" stroke-width="2.165"/>
+                                              <circle class="baron-eye" cx="91.376" cy="134.843" r="7.611" stroke="none" stroke-width="3.007"/>
+                                              <ellipse class="baron-eye" cx="91.376" cy="162.908" rx="4.972" ry="5.067" stroke="#000" stroke-width="2.614"/>
+                                              <circle class="baron-eye" cx="71.438" cy="142.686" r="2.268" stroke="#000" stroke-width="2.165"/>
+                                              <circle class="baron-eye" cx="82.966" cy="150.246" r="2.268" stroke="#000" stroke-width="2.165"/>
+                                              <circle class="baron-eye" cx="100.116" cy="150.293" r="2.268" stroke="#000" stroke-width="2.165"/>
+                                              <circle class="baron-eye" cx="112.259" cy="142.308" r="2.268" stroke="#000" stroke-width="2.165"/>
+                                              <circle class="baron-eye" cx="75.17" cy="165.64" r="1.136" stroke="#000" stroke-width="2.165"/>
+                                              <circle class="baron-eye" cx="108.645" cy="165.573" r="1.136" stroke="#000" stroke-width="2.165"/>
+                                            </g>
+                                          </svg>
+                                        <p>{{ userMatchStats['teamStats']['blueBaronKills'] }}</p>
+                                        <div class="objective-tooltip">
+                                            <span class="objective-tooltip-text">Barons Slain</span>
+                                        </div>
+                                    </div>
+                                    <div></div>
+                                    <div class="objectives-slain">
+                                        <svg class="tur-damage-icon"xmlns="http://www.w3.org/2000/svg" width="198.667" height="198.667" viewBox="0 0 52.564 52.564" version="1.1" id="svg8">
+                                            <g class="tower-red" transform="translate(-49.364 -81.82)">
+                                              <path d="M56.176 133.84c-.334-.334-.437-3.943-.437-15.244 0-13.412-.056-14.868-.597-15.466-.56-.619-.56-.72 0-1.67.833-1.409.747-2.876-.326-5.556-.848-2.12-.89-2.465-.528-4.293.69-3.478 2.601-9.622 2.9-9.323.45.45 2.75 9.142 2.808 10.608.029.722-.362 2.492-.868 3.933-1.114 3.173-1.119 3.313-.15 4.624l.77 1.04-.77.82c-.73.777-.77 1.136-.77 6.882 0 3.335.091 6.063.202 6.063.111 0 .879-.397 1.706-.881l1.504-.882-.169-2.905c-.125-2.165-.348-3.148-.876-3.862-.6-.813-.673-1.284-.48-3.126.124-1.192.527-2.848.894-3.678.847-1.914 2.97-4.278 4.602-5.12l1.26-.651 2.016 1.07c2.167 1.15 2.77 1.126 3.572-.143 1.23-1.95 1.127-2.234-1.323-3.604-4.55-2.544-5.104-3.48-3.782-6.38.695-1.526 2.39-3.705 2.882-3.705.167 0 .084.525-.184 1.167-.268.641-.538 1.779-.6 2.528-.097 1.195.019 1.438.947 1.984.582.342 1.48.726 1.995.853.79.194 1.012.073 1.414-.77.938-1.966 5.404-2.43 7.502-.78.5.393.907.94.907 1.217 0 .709.785.628 2.637-.272 1.803-.876 1.907-1.265 1.071-4.019-.289-.952-.527-1.8-.529-1.886-.002-.084.492.312 1.099.882 1.334 1.253 2.407 3.459 2.417 4.969.01 1.345-1.575 2.873-4.44 4.277-1.206.592-1.902 1.156-1.902 1.542 0 1.154.693 2.429 1.528 2.81.701.319 1.155.2 2.806-.732 1.913-1.079 2.003-1.095 3.07-.543 2.938 1.52 5.139 4.996 5.603 8.85.372 3.09.047 3.459-1.615 1.839-2.759-2.688-5.82-3.117-8.911-1.25-2.34 1.414-3.995 3.741-4.992 7.024-.615 2.027-.715 3.081-.585 6.22.187 4.515 1.013 6.982 3.263 9.744 1.38 1.694 1.46 1.902.98 2.526-.286.374-.828 1.355-1.203 2.18l-.683 1.498h-7.908l-.77-1.675c-.423-.922-1.323-2.322-2-3.112l-1.23-1.437-.115-5.266c-.09-4.106-.249-5.538-.724-6.501-.335-.68-.74-1.87-.898-2.646l-.288-1.411-.452 2.527c-.257 1.44-.706 2.75-1.042 3.045-.325.285-2.258.911-4.295 1.392l-3.704.873-.177 7.018c-.168 6.694-.209 7.022-.886 7.119-.39.056-.906-.095-1.146-.335zm22.903-38.96l-.12-4.092 1.09.24c1.197.262 1.272.105.715-1.493-.439-1.259-1.742-1.828-1.742-.76 0 .533-.255.672-1.235.672-1.006 0-1.234-.133-1.234-.718 0-1.087-1.238-.287-1.727 1.116-.517 1.483-.55 1.426.757 1.3l1.146-.11-.12 3.968-.12 3.969h2.71l-.12-4.092zm6.613 33.963c-1.89-.998-3.521-3.057-4.582-5.783-1.12-2.88-1.147-8.215-.057-11.16 1.507-4.074 3.931-6.278 7.162-6.511 1.76-.128 2.306-.011 3.659.782 2.662 1.56 4.362 4.59 5.166 9.207.919 5.275-1.894 11.833-5.844 13.627-1.915.87-3.644.82-5.504-.162z" id="path871" fill="#000" stroke-width=".353"/>
+                                            </g>
+                                          </svg>
+                                        <p>{{ userMatchStats['teamStats']['redTowerKills'] }}</p>
+                                        <div class="objective-tooltip">
+                                            <span class="objective-tooltip-text">Towers Destroyed</span>
+                                        </div>  
+                                    </div>
+                                    <div class="objectives-slain">
+                                        <svg class="dragon-icon"xmlns="http://www.w3.org/2000/svg" width="197.333" height="197.333" viewBox="0 0 52.211 52.211" version="1.1" id="svg879">
+                                            <g class="dragon-red" transform="translate(82.399 -42.686)">
+                                              <path d="M-59.326 93.558c-1.863-.956-2.42-1.428-2.584-2.188-.593-2.744-2.068-7.559-2.986-9.744-.57-1.357-.98-2.525-.91-2.595.332-.332 2.38 2.85 3.15 4.892.474 1.261 1.224 2.997 1.666 3.857l.803 1.564.462-1.12c.253-.616.602-1.206.773-1.312.172-.106.84.464 1.487 1.268l1.174 1.46 1.317-1.484c1.382-1.557 1.485-1.543 2.288.304.377.867.404.847 1.37-1.049.542-1.062 1.272-2.767 1.623-3.787.567-1.648 2.719-4.883 3.036-4.565.067.067-.28 1.03-.77 2.141-.8 1.807-2.6 7.618-3.153 10.17-.166.77-.718 1.226-2.664 2.206-1.35.68-2.736 1.228-3.08 1.218-.345-.01-1.695-.566-3.002-1.236zm1.461-8.519l-1.445-1.305-.606.804c-.527.698-.664.735-1.043.279-.24-.29-.785-1.39-1.212-2.449-.559-1.383-1.321-2.396-2.717-3.608-3.049-2.647-4.84-4.992-5.09-6.662-.344-2.29-1.787-5.057-3.03-5.814-.608-.369-1.716-.769-2.464-.888-1.352-.217-1.361-.23-1.607-2.196-.747-5.982.77-13.336 3.812-18.483l1.147-1.94.212 3.175c.342 5.105 1.86 8.04 5.256 10.158.817.51 1.027.491 2.854-.258l1.972-.81 2.763 2.07c1.52 1.138 2.788 2.07 2.818 2.07.03 0 1.298-.932 2.818-2.07l2.763-2.07 1.97.802c2.214.901 2.453.843 4.64-1.133 2.16-1.952 3.237-4.606 3.481-8.583l.206-3.351 1.145 1.94c3.043 5.153 4.558 12.503 3.81 18.483-.245 1.966-.254 1.98-1.606 2.196-.748.12-1.856.519-2.463.888-1.241.755-2.687 3.523-3.028 5.798-.257 1.716-1.915 3.923-4.9 6.525-1.538 1.34-2.31 2.343-2.876 3.736-1.134 2.79-1.475 3.113-2.268 2.143l-.644-.787-1.362 1.323c-.75.728-1.475 1.323-1.612 1.323s-.899-.588-1.694-1.306zm.376-4.227c-.783-2.436-2.065-3.273-2.83-1.845-.216.405-.34.774-.276.82.064.047.696.434 1.404.86.709.425 1.387 1.031 1.508 1.346.443 1.155.613.124.194-1.18zm4.817-.399c1.227-.629 1.231-.64.593-1.43-.86-1.061-1.675-.702-2.375 1.046-.755 1.887-.758 2.88-.005 1.806.303-.433 1.107-1.073 1.787-1.422zm-6.503-9.838c-.591-.737-2.294-2.53-3.784-3.986l-2.709-2.645.156 2.043c.212 2.792.925 3.614 4.328 4.995 1.552.63 2.881 1.097 2.953 1.038.072-.058-.353-.709-.944-1.445zm8.045.438c2.147-.865 3.171-1.487 3.606-2.19.656-1.058 1.21-3.885.836-4.26-.25-.249-4.905 4.218-6.614 6.348-.584.728-1.01 1.32-.944 1.317.065-.003 1.467-.55 3.116-1.215z" id="path1456" fill="#000" stroke-width=".553" stroke="#000" stroke-opacity="1" stroke-miterlimit="4" stroke-dasharray="none"/>
+                                            </g>
+                                          </svg>
+                                        <p>{{ userMatchStats['teamStats']['redDragonKills'] }}</p>
+                                        <div class="objective-tooltip">
+                                            <span class="objective-tooltip-text">Dragons Slain</span>
+                                        </div> 
+                                    </div>
+                                    <div class="objectives-slain">
+                                        <svg class="obj-damage-icon"xmlns="http://www.w3.org/2000/svg" width="420.036" height="455.75" viewBox="0 0 111.134 120.584" version="1.1" id="svg8">
+                                            <g class="baron-face-red" transform="translate(-36.47 -80.315)">
+                                              <path d="M73.287 198.786c-7.02-3.675-11.284-9.292-11.707-15.422-.11-1.612-.027-2.138.581-3.66 2.224-5.558 1.79-9.927-1.29-13.01-2.528-2.53-3.927-3.143-7.16-3.143-2.443 0-2.78.065-4.385.85-.955.468-2.285 1.332-2.954 1.922l-1.217 1.07-.28-.863c-.153-.475-.41-1.726-.57-2.781-.557-3.657.273-6.467 3.56-12.053 5.357-9.1 6.003-14.21 2.688-21.241-1.894-4.017-4.468-7.605-8.188-11.416l-2.126-2.177.351-.998c1.354-3.841 5.183-11.787 7.619-15.809 5.55-9.167 13.656-16.483 19.458-17.562.691-.129 1.257-.19 1.257-.138 0 .053-.925 1.199-2.055 2.546-3.928 4.68-6.85 9.306-8.316 13.165-1.42 3.737-1.113 9.081.741 12.9 3.094 6.376 10.852 9.854 21.98 9.854h3.235l.77-1.124c1.752-2.558 3.371-6.778 4.838-12.609.564-2.241 1.063-4.113 1.108-4.159.046-.045.224 1.028.395 2.387.502 3.97 2.763 9.51 5.87 14.38l1.054 1.654 2.586-.008c7.389-.023 12.6-1.75 17.065-5.653 6.548-5.725 8.318-12.632 5.16-20.135-1.23-2.921-5.729-9.417-7.85-11.333-1.208-1.092-1.307-1.39-.54-1.633 1.097-.348 5.221 1.568 8.199 3.81 3.681 2.77 8.566 8.465 11.716 13.659 2.611 4.304 7.863 15.418 7.863 16.64 0 .167-.726 1.015-1.612 1.884-5.724 5.608-9.867 12.74-10.547 18.154-.486 3.875.439 7.073 4.237 14.646 3.262 6.505 3.683 8.1 3.173 12.034-.457 3.525-.693 3.722-2.69 2.251-4.77-3.51-9.54-2.998-13.543 1.454-2.42 2.693-2.873 6.806-1.236 11.248 1.43 3.877 1.057 6.845-1.363 10.877-1.294 2.157-5.252 6.233-7.533 7.759-1.86 1.244-4.681 2.41-5.017 2.075-.085-.085.087-.935.382-1.89 1.14-3.69 2.202-9.956 2.07-12.206-.28-4.778-2.01-7.012-5.428-7.012h-1.29l-1.788 3.77-1.789 3.77-1.224-2.446c-.673-1.347-1.294-2.448-1.38-2.448-.086 0-.498.714-.915 1.588-.417.873-.839 1.587-.936 1.587-.098 0-.927-.952-1.842-2.117-.915-1.164-1.74-2.116-1.831-2.116-.092 0-.697.893-1.344 1.984-.647 1.092-1.24 1.983-1.316 1.981-.077-.002-.531-.716-1.01-1.587-.478-.872-.918-1.584-.976-1.584-.059 0-.679 1.07-1.379 2.378s-1.332 2.378-1.405 2.378c-.072 0-.84-1.678-1.703-3.727l-1.572-3.727-1.032.165c-2.392.383-4.288 2.042-5.15 4.509-1.045 2.993-.44 10.533 1.263 15.713.304.925.515 1.72.468 1.767-.047.046-1.036-.413-2.198-1.022z" id="path847" fill="#888" fill-opacity="1" stroke="#000" stroke-width="2.165" stroke-miterlimit="4" stroke-dasharray="none" stroke-opacity="1"/>
+                                            </g>
+                                            <g class="baron-eyes" transform="translate(-36.47 -80.315)" fill="#000" fill-opacity="1" stroke-miterlimit="4" stroke-dasharray="none" stroke-opacity="1">
+                                              <ellipse class="baron-eye" cx="119.251" cy="156.293" rx="3.591" ry="3.496" stroke="#000" stroke-width="2.165"/>
+                                              <ellipse class="baron-eye" cx="64.634" cy="156.199" rx="3.591" ry="3.496" stroke="#000" stroke-width="2.165"/>
+                                              <circle class="baron-eye" cx="91.376" cy="134.843" r="7.611" stroke="none" stroke-width="3.007"/>
+                                              <ellipse class="baron-eye" cx="91.376" cy="162.908" rx="4.972" ry="5.067" stroke="#000" stroke-width="2.614"/>
+                                              <circle class="baron-eye" cx="71.438" cy="142.686" r="2.268" stroke="#000" stroke-width="2.165"/>
+                                              <circle class="baron-eye" cx="82.966" cy="150.246" r="2.268" stroke="#000" stroke-width="2.165"/>
+                                              <circle class="baron-eye" cx="100.116" cy="150.293" r="2.268" stroke="#000" stroke-width="2.165"/>
+                                              <circle class="baron-eye" cx="112.259" cy="142.308" r="2.268" stroke="#000" stroke-width="2.165"/>
+                                              <circle class="baron-eye" cx="75.17" cy="165.64" r="1.136" stroke="#000" stroke-width="2.165"/>
+                                              <circle class="baron-eye" cx="108.645" cy="165.573" r="1.136" stroke="#000" stroke-width="2.165"/>
+                                            </g>
+                                          </svg>
+                                        <p>{{ userMatchStats['teamStats']['redBaronKills'] }}</p>
+                                        <div class="objective-tooltip">
+                                            <span class="objective-tooltip-text">Barons Slain</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="match-player-stats">
+                                <div class="match-player-build">
+                                    <div class="match-player-ss">
+                                        <div class="player-ss">
+                                            {% set playerSS1 = "dragontail-11.7.1/11.7.1/img/spell/%s.png" % userMatchStats['summonerspells']['summoner1'] %}
+                                            <img src="{{ url_for('static', filename=playerSS1) }}">
+                                            <div class="ss-tooltip">
+                                                {% set playerSSName1 = userMatchStats['summonerspells']['summoner1'] | string() %}
+                                                <span class="ss-tooltip-text">{{ ss_names[playerSSName1] }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="player-ss">
+                                            {% set playerSS2 = "dragontail-11.7.1/11.7.1/img/spell/%s.png" % userMatchStats['summonerspells']['summoner2'] %}
+                                            <img src="{{ url_for('static', filename=playerSS2) }}">
+                                            <div class="ss-tooltip">
+                                                {% set playerSSName2 = userMatchStats['summonerspells']['summoner2'] | string() %}
+                                                <span class="ss-tooltip-text">{{ ss_names[playerSSName2] }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="match-player-items">
+                                        <div class="item-row" style="margin-bottom: 3px;margin-top: 2px;">
+                                            <div class="player-item">
+                                                {% set playerItem1 = "dragontail-11.7.1/11.7.1/img/item/%s.png" % userMatchStats['items']['item0'] %}
+                                                <img src="{{ url_for('static', filename=playerItem1) }}">
+                                                <div class="item-tooltip">
+                                                    {% set playerItemName1 = userMatchStats['items']['item0'] | string() %}
+                                                    <span class="item-tooltip-text">{{ item_names[playerItemName1] }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="player-item">
+                                                {% set playerItem2 = "dragontail-11.7.1/11.7.1/img/item/%s.png" % userMatchStats['items']['item1'] %}
+                                                <img src="{{ url_for('static', filename=playerItem2) }}">
+                                                <div class="item-tooltip">
+                                                    {% set playerItemName2 = userMatchStats['items']['item1'] | string() %}
+                                                    <span class="item-tooltip-text">{{ item_names[playerItemName2] }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="player-item">
+                                                {% set playerItem3 = "dragontail-11.7.1/11.7.1/img/item/%s.png" % userMatchStats['items']['item2'] %}
+                                                <img src="{{ url_for('static', filename=playerItem3) }}">
+                                                <div class="item-tooltip">
+                                                    {% set playerItemName3 = userMatchStats['items']['item2'] | string() %}
+                                                    <span class="item-tooltip-text">{{ item_names[playerItemName3] }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item-row" style="margin-top: 3px;margin-bottom: 2px;">
+                                            <div class="player-item">
+                                                {% set playerItem4 = "dragontail-11.7.1/11.7.1/img/item/%s.png" % userMatchStats['items']['item3'] %}
+                                                <img src="{{ url_for('static', filename=playerItem4) }}">
+                                                <div class="item-tooltip">
+                                                    {% set playerItemName4 = userMatchStats['items']['item3'] | string() %}
+                                                    <span class="item-tooltip-text">{{ item_names[playerItemName4] }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="player-item">
+                                                {% set playerItem5 = "dragontail-11.7.1/11.7.1/img/item/%s.png" % userMatchStats['items']['item4'] %}
+                                                <img src="{{ url_for('static', filename=playerItem5) }}">
+                                                <div class="item-tooltip">
+                                                    {% set playerItemName5 = userMatchStats['items']['item4'] | string() %}
+                                                    <span class="item-tooltip-text">{{ item_names[playerItemName5] }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="player-item">
+                                                {% set playerItem6 = "dragontail-11.7.1/11.7.1/img/item/%s.png" % userMatchStats['items']['item5'] %}
+                                                <img src="{{ url_for('static', filename=playerItem6) }}">
+                                                <div class="item-tooltip">
+                                                    {% set playerItemName6 = userMatchStats['items']['item5'] | string() %}
+                                                    <span class="item-tooltip-text">{{ item_names[playerItemName6] }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="match-player-trinket">
+                                        {% set playerTrinket = "dragontail-11.7.1/11.7.1/img/item/%s.png" % userMatchStats['items']['trinket'] %}
+                                        <img src="{{ url_for('static', filename=playerTrinket) }}">
+                                        <div class="item-tooltip">
+                                            {% set playerTrinket = userMatchStats['items']['trinket'] | string() %}
+                                            <span class="item-tooltip-text">{{ item_names[playerTrinket] }}</span>
+                                        </div>
+                                        <h3><svg class="wardscore-icon"xmlns="http://www.w3.org/2000/svg" width="52mm" height="52mm" viewBox="0 0 52 52" version="1.1" id="svg8">
+                                            <g class="ward" transform="translate(-71.362 -88.749)">
+                                              <path d="M93.702 133.86c-2.395-1.89-2.43-2.922-.454-13.102 3.28-16.892 4.69-16.892 7.97 0 1.976 10.18 1.94 11.211-.455 13.102-3.23 2.55-3.83 2.55-7.06 0zm-7.52-16.985c-2.078-.579-2.54-1.746-1.855-4.69.724-3.117.322-3.92-1.964-3.92-1.581 0-4.475-1.44-6.431-3.198l-3.557-3.199 8.478-.054c10.22-.065 12.65 2.21 11.21 10.499-.546 3.14-1.47 5.625-2.054 5.521-.584-.104-2.307-.535-3.828-.96zm16.245-4.426c-1.467-8.438.913-10.7 11.186-10.635l8.478.054-3.557 3.199c-1.956 1.759-4.85 3.198-6.431 3.198-2.315 0-2.69.793-1.93 4.066.549 2.36.296 4.066-.601 4.066-.851 0-2.578.427-3.838.949-1.698.703-2.554-.565-3.307-4.897zm-9.567-12.092c-1.689-2.561-2.639-5.122-2.11-5.692 1.247-1.347 11.719-1.347 12.967 0 1.131 1.221-4.587 10.348-6.484 10.348-.716 0-2.684-2.096-4.373-4.656z" id="path855" fill="#000" fill-opacity="1" stroke="#000" stroke-width="1.177" stroke-miterlimit="4" stroke-dasharray="none" stroke-opacity="1"/>
+                                            </g>
+                                          </svg>{{ userMatchStats['visionScore'] }}</h3>
+                                    </div>
+                                    <div class="match-player-runes">
+                                        <div class="player-runes-row">
+                                            <div class="player-keystone-container">
+                                                {% set playerKeystone = "dragontail-11.7.1/img/%s" % userMatchStats['runes']['keystone'][1] %}
+                                                <img style="height: 30px; width: 30px; border-radius: 0;" src="{{ url_for('static', filename=playerKeystone) }}">
+                                                <div class="rune-tooltip">
+                                                    {% set playerKeystoneName = userMatchStats['runes']['keystone'][0] %}
+                                                    <span class="rune-tooltip-text">{{ playerKeystoneName }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="player-runes-row">
+                                            <div class="player-rune-container">
+                                                {% set primary1 = "dragontail-11.7.1/img/%s" % userMatchStats['runes']['primary1'][1] %}
+                                                <img src="{{ url_for('static', filename=primary1) }}">
+                                                <div class="rune-tooltip">
+                                                    {% set primary1Name = userMatchStats['runes']['primary1'][0] %}
+                                                    <span class="rune-tooltip-text">{{ primary1Name }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="player-rune-container">
+                                                {% set primary2 = "dragontail-11.7.1/img/%s" % userMatchStats['runes']['primary2'][1] %}
+                                                <img src="{{ url_for('static', filename=primary2) }}">
+                                                <div class="rune-tooltip">
+                                                    {% set primary2Name = userMatchStats['runes']['primary2'][0] %}
+                                                    <span class="rune-tooltip-text">{{ primary2Name }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="player-rune-container">
+                                                {% set primary3 = "dragontail-11.7.1/img/%s" % userMatchStats['runes']['primary3'][1] %}
+                                                <img src="{{ url_for('static', filename=primary3) }}">
+                                                <div class="rune-tooltip">
+                                                    {% set primary3Name = userMatchStats['runes']['primary3'][0] %}
+                                                    <span class="rune-tooltip-text">{{ primary3Name }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="player-runes-row">
+                                            <div class="player-rune-container">
+                                                {% set secondary1 = "dragontail-11.7.1/img/%s" % userMatchStats['runes']['secondary1'][1] %}
+                                                <img src="{{ url_for('static', filename=secondary1) }}">
+                                                <div class="rune-tooltip">
+                                                    {% set secondary1Name = userMatchStats['runes']['secondary1'][0] %}
+                                                    <span class="rune-tooltip-text">{{ secondary1Name }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="player-rune-container">
+                                                {% set secondary2 = "dragontail-11.7.1/img/%s" % userMatchStats['runes']['secondary2'][1] %}
+                                                <img src="{{ url_for('static', filename=secondary2) }}">
+                                                <div class="rune-tooltip">
+                                                    {% set secondary2Name = userMatchStats['runes']['secondary2'][0] %}
+                                                    <span class="rune-tooltip-text">{{ secondary2Name }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="match-player-kda">
+                                    <h3>Level {{ userMatchStats['champLevel'] }}</h3>
+                                    <h1>{{ userMatchStats['kills'] }} / {{ userMatchStats['deaths'] }} / {{ userMatchStats['assists'] }} ({{ userMatchStats['kda'] }})</h1>
+                                    <h3>{{ userMatchStats['creepScore'] }}cs ({{ userMatchStats['csPerMin'] }}/m) <svg height="10" width="10">
+                                        <circle cx="5" cy="5" r="4" fill="#262530"/>
+                                    </svg> {{ userMatchStats['killParticipation'] }}% KP </h3>
+                                </div>
+                                <div class="match-adv-stats">
+                                    <div class="stats-gold-earned-container">
+                                        <div class="stats-gold-earned">
+                                            <svg class="gold-earned-icon"xmlns="http://www.w3.org/2000/svg" width="52mm" height="52mm" viewBox="0 0 52 52">
+                                                <ellipse cx="20.715" cy="32.984" rx="18.078" ry="8.877" opacity=".999" stroke="#000" stroke-width="5.837" stroke-linejoin="round" paint-order="markers fill stroke"/>
+                                                <ellipse cx="20.577" cy="33.308" rx="15.093" ry="7.22" transform="matrix(.99996 -.00884 .00372 1 0 0)" opacity=".999" fill="#fff"/>
+                                                <g>
+                                                <g class="coin-top-layer"stroke="#000">
+                                                    <ellipse cx="31.259" cy="18.269" rx="18.473" ry="7.722" opacity=".999" stroke-width="5.046"/>
+                                                    <ellipse cx="31.259" cy="23.874" rx="18.473" ry="7.722" opacity=".999" stroke-width="5.046"/>
+                                                    <rect width=".419" height="8.139" x="12.48" y="17.575" ry=".264" opacity=".999" stroke-width="4.527"/>
+                                                    <rect width=".419" height="8.139" x="49.432" y="17.141" ry=".264" opacity=".999" stroke-width="4.527"/>
+                                                </g>
+                                                </g>
+                                            </svg>                                    
+                                            <p style="margin-left: 3px;">{{ userMatchStats['goldEarned'] }}</p>
+                                            <div class="stat-tooltip">
+                                                <span class="stat-tooltip-text">Gold Earned</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="stats-damages">
+                                        <div class="individual-damage-stat">
+                                            <div class="champ-damage-container">
+                                                <svg class="champ-damage-icon"xmlns="http://www.w3.org/2000/svg" width="258.55" height="233.51" viewBox="0 0 68.408 61.783" version="1.1" id="svg8">
+                                                    <g class="swords" transform="translate(-57.266 -98.314)">
+                                                    <g class="swords_r" transform="translate(-12.095 -4.725)" fill-opacity="1">
+                                                        <path d="M86.1 147.826l-9.17-9.26 9.261 9.17c8.606 8.52 9.42 9.35 9.17 9.35-.05 0-4.217-4.166-9.26-9.26zm34.575.089c5.042-5.045 9.247-9.173 9.344-9.173.097 0-3.95 4.128-8.991 9.173-5.042 5.044-9.247 9.172-9.344 9.172-.097 0 3.95-4.128 8.991-9.172z" id="path857" fill="#a3a3a3" stroke-width=".353"/>
+                                                        <path d="M79.884 154c-.438-.56-.426-.572.134-.133.34.266.617.544.617.617 0 .29-.29.104-.75-.484zm46.612.484c0-.073.278-.35.617-.617.56-.439.572-.426.134.133-.461.588-.751.775-.751.484zm-47.625-19.093c1.054-1.067 1.996-1.94 2.093-1.94.097 0-.686.873-1.74 1.94-1.054 1.067-1.996 1.94-2.093 1.94-.097 0 .686-.873 1.74-1.94zm49.024-.088l-1.928-2.029 2.028 1.929c1.116 1.06 2.029 1.973 2.029 2.028 0 .262-.338-.044-2.129-1.928zm-31.43.353c-.439-.56-.426-.572.133-.134.34.267.617.545.617.618 0 .29-.29.103-.75-.484zm3.175 0c-.439-.56-.426-.572.133-.134.34.267.617.545.617.618 0 .29-.29.103-.75-.484zm14.817-2.47c-.44-.56-.427-.572.133-.133.587.46.774.75.484.75-.073 0-.351-.277-.617-.617zm-22.18.132c0-.074.277-.351.617-.618.56-.439.572-.426.133.133-.46.588-.75.775-.75.485zm23.988-5.998c0-.073.278-.35.618-.617.56-.439.572-.426.133.133-.46.588-.75.775-.75.484zm-31.089-5.07c-.439-.56-.426-.572.133-.133.588.46.775.75.484.75-.073 0-.35-.277-.617-.617zm15.875-3.528c-.439-.56-.426-.572.133-.133.34.266.618.544.618.617 0 .29-.29.104-.751-.484zm4.278.484c0-.073.278-.35.618-.617.56-.439.572-.426.133.133-.46.588-.75.775-.75.484zm4.586-4.938c0-.074.278-.351.618-.618.56-.439.572-.426.133.133-.46.588-.75.775-.75.485z" id="path855" fill="#8c8c8c" stroke-width=".353"/>
+                                                        <path d="M126.877 159.35c.017-.41.1-.494.213-.213.102.255.09.56-.028.677-.117.117-.2-.092-.185-.463z" id="path853" fill="#606060" stroke-width=".353"/>
+                                                        <path d="M74.572 164.607c.254-.102.558-.09.676.028.117.117-.091.2-.463.185-.411-.017-.495-.1-.213-.213zm57.502 0c.255-.102.56-.09.676.028.118.117-.09.2-.463.185-.41-.017-.494-.1-.213-.213zm-57.502-10.583c.254-.102.558-.09.676.027.117.118-.091.201-.463.186-.411-.017-.495-.1-.213-.213zm57.502 0c.255-.102.56-.09.676.027.118.118-.09.201-.463.186-.41-.017-.494-.1-.213-.213zm-4.872-36.934c0-.073.277-.351.617-.618.56-.438.572-.426.133.134-.46.587-.75.774-.75.484z" id="path851" fill="#494949" stroke-width=".353"/>
+                                                        <path d="M71.883 163.781c-1.18-.719-2.521-3.062-2.521-4.401 0-.388.304-1.377.677-2.198 1.676-3.692 6.949-4.021 9.22-.574.892 1.352.892 4.192 0 5.544-1.556 2.362-4.946 3.11-7.376 1.63zm57.661.045c-1.596-1.053-2.338-2.463-2.338-4.446 0-1.983.742-3.393 2.338-4.446 1.382-.91 4.172-.889 5.704.045 1.18.719 2.521 3.061 2.521 4.4 0 1.34-1.342 3.683-2.521 4.402-1.532.934-4.322.956-5.704.045zm-47.656-7.01c-.328-1.49-2.087-3.438-3.897-4.314-1.804-.874-1.916-.475 1.216-4.347l1.924-2.378 3.61 3.598 3.61 3.598-2.843 2.321c-1.564 1.277-2.968 2.37-3.12 2.429-.153.059-.378-.35-.5-.907zm39.784-1.454l-2.884-2.397 3.606-3.594 3.606-3.594 1.924 2.378c3.132 3.872 3.02 3.473 1.216 4.347-1.801.872-3.57 2.822-3.893 4.295-.12.548-.325.988-.455.979-.13-.01-1.534-1.096-3.12-2.414zm-35.307-7.538c-5.092-5.095-9.258-9.505-9.258-9.8 0-.721 3.924-4.573 4.658-4.573.32 0 3.08 1.654 6.134 3.676l5.554 3.675 3.645 5.573c2.005 3.065 3.645 5.821 3.645 6.125 0 .698-3.899 4.587-4.599 4.587-.286 0-4.687-4.168-9.779-9.263zm22.04 7.224c-1.11-1.121-2.017-2.277-2.017-2.57 0-.291 1.64-3.038 3.645-6.103l3.645-5.573 5.554-3.675c3.054-2.022 5.824-3.676 6.155-3.676.734 0 4.637 3.87 4.637 4.599 0 .691-18.371 19.037-19.064 19.037-.295 0-1.445-.918-2.555-2.039zm-11.808-13.665c-1.126-1.714-2.12-2.696-3.987-3.937l-2.488-1.655 1.578-1.578 1.578-1.578 4.288 4.018 4.288 4.018-1.593 1.505c-.876.828-1.722 1.502-1.878 1.498-.157-.004-.96-1.035-1.786-2.29zm-2.852-11.419l-14.768-13.717-1.492-5.367c-1.841-6.624-2.016-7.61-1.386-7.832.264-.093 3.372.558 6.907 1.447l6.428 1.616 9.945 10.76a7174.146 7174.146 0 0013.763 14.856l3.818 4.097-2.463 1.638c-1.842 1.225-2.842 2.213-3.963 3.921-.825 1.256-1.617 2.287-1.76 2.291-.143.004-6.906-6.165-15.029-13.71zm15.966-5.334c-2.313-2.523-4.205-4.74-4.205-4.927 0-.187 2.776-3.356 6.17-7.042l6.17-6.702 5.947-1.424c6.724-1.61 7.643-1.706 7.64-.806-.002 1.363-3.186 12.218-3.776 12.877-.886.991-13.41 12.611-13.592 12.611-.082 0-2.041-2.064-4.354-4.587z" id="path849" fill="#000" stroke-width=".653" stroke="#000" stroke-opacity="1" stroke-miterlimit="4" stroke-dasharray="none"/>
+                                                    </g>
+                                                    </g>
+                                                </svg>
+                                                <p style="margin-left: 3px;">{{ userMatchStats['champDmg'] }}</p>
+                                                <div class="stat-tooltip">
+                                                    <span class="stat-tooltip-text">Champion Damage</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="individual-damage-stat">
+                                            <div class="damage-taken-container">
+                                                <svg class="damage-taken-icon"xmlns="http://www.w3.org/2000/svg" width="52mm" height="52mm" viewBox="0 0 52 52">
+                                                    <path d="M19.512 52c-1.237-.1-2.878-.382-3.968-.68-2.555-.7-4.83-2.13-6.516-4.091-1.904-2.216-3.246-5.295-3.621-8.308-.106-.851-.088-3.564.029-4.407.387-2.796 1.713-6.312 3.8-10.084.704-1.269 1.269-2.21 3.401-5.656 2.812-4.546 3.716-6.088 4.73-8.07 1.61-3.148 2.314-5.221 3.42-10.077.078-.345.15-.62.16-.61.01.01.224.843.476 1.85 1.701 6.808 2.71 9.01 8.176 17.862 3.837 6.214 4.966 8.292 5.96 10.963.549 1.475.984 3.124 1.163 4.406.133.954.132 3.672-.002 4.637-.276 1.986-1.034 3.962-2.182 5.69-.545.82-1.012 1.389-1.723 2.097-2.418 2.407-5.503 3.836-9.454 4.382-.589.081-3.216.146-3.848.095zm.44-4.986c.412-.172.648-.536.648-.996 0-.21-.032-.334-.12-.466-.241-.357-.529-.478-1.63-.685-1.766-.332-3.203-1.095-4.505-2.392-1.038-1.034-1.702-2.099-2.158-3.462-.262-.782-.345-1.414-.346-2.614 0-1.1.063-1.623.288-2.39.173-.588.233-1.227.137-1.458-.102-.245-.453-.522-.712-.56-.748-.113-1.317.739-1.596 2.387-.2 1.182-.19 3.222.021 4.26.272 1.333 1.07 3.037 2.013 4.3.94 1.258 2.494 2.497 3.966 3.161.84.379 2.172.78 3.046.916.61.095.717.095.947-.001zm17.822-8.054c.38-2.58-.39-6.736-1.865-10.063-.895-2.018-1.939-3.997-3.4-6.446-.933-1.563-1.034-1.755-1.005-1.912.037-.197.29-.642 1.482-2.6 2.225-3.657 2.658-4.702 3.657-8.827a57.5 57.5 0 01.445-1.773c.032-.033.05.03.522 1.959.739 3.01 1.13 4.196 1.939 5.866.586 1.211 1.08 2.077 2.642 4.634 1.542 2.523 2.04 3.391 2.745 4.789.932 1.846 1.4 3.177 1.517 4.309.078.767.066 2.745-.02 3.23-.04.218-.159.66-.266.981-.622 1.868-1.77 3.384-3.386 4.467-1.258.843-2.546 1.305-4.261 1.53-.848.11-.785.122-.746-.144z" fill="#c7cae5" stroke-width=".553" stroke="#262530"/>
+                                                </svg>
+                                                <p style="margin-left: 3px;">{{ userMatchStats['takenDmg'] }}</p>  
+                                                <div class="stat-tooltip">
+                                                    <span class="stat-tooltip-text">Damage Taken</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="individual-damage-stat">
+                                            <div class="obj-damage-container">
+                                                <svg class="obj-damage-icon"xmlns="http://www.w3.org/2000/svg" width="420.036" height="455.75" viewBox="0 0 111.134 120.584" version="1.1" id="svg8">
+                                                    <g class="baron-face" transform="translate(-36.47 -80.315)">
+                                                    <path d="M73.287 198.786c-7.02-3.675-11.284-9.292-11.707-15.422-.11-1.612-.027-2.138.581-3.66 2.224-5.558 1.79-9.927-1.29-13.01-2.528-2.53-3.927-3.143-7.16-3.143-2.443 0-2.78.065-4.385.85-.955.468-2.285 1.332-2.954 1.922l-1.217 1.07-.28-.863c-.153-.475-.41-1.726-.57-2.781-.557-3.657.273-6.467 3.56-12.053 5.357-9.1 6.003-14.21 2.688-21.241-1.894-4.017-4.468-7.605-8.188-11.416l-2.126-2.177.351-.998c1.354-3.841 5.183-11.787 7.619-15.809 5.55-9.167 13.656-16.483 19.458-17.562.691-.129 1.257-.19 1.257-.138 0 .053-.925 1.199-2.055 2.546-3.928 4.68-6.85 9.306-8.316 13.165-1.42 3.737-1.113 9.081.741 12.9 3.094 6.376 10.852 9.854 21.98 9.854h3.235l.77-1.124c1.752-2.558 3.371-6.778 4.838-12.609.564-2.241 1.063-4.113 1.108-4.159.046-.045.224 1.028.395 2.387.502 3.97 2.763 9.51 5.87 14.38l1.054 1.654 2.586-.008c7.389-.023 12.6-1.75 17.065-5.653 6.548-5.725 8.318-12.632 5.16-20.135-1.23-2.921-5.729-9.417-7.85-11.333-1.208-1.092-1.307-1.39-.54-1.633 1.097-.348 5.221 1.568 8.199 3.81 3.681 2.77 8.566 8.465 11.716 13.659 2.611 4.304 7.863 15.418 7.863 16.64 0 .167-.726 1.015-1.612 1.884-5.724 5.608-9.867 12.74-10.547 18.154-.486 3.875.439 7.073 4.237 14.646 3.262 6.505 3.683 8.1 3.173 12.034-.457 3.525-.693 3.722-2.69 2.251-4.77-3.51-9.54-2.998-13.543 1.454-2.42 2.693-2.873 6.806-1.236 11.248 1.43 3.877 1.057 6.845-1.363 10.877-1.294 2.157-5.252 6.233-7.533 7.759-1.86 1.244-4.681 2.41-5.017 2.075-.085-.085.087-.935.382-1.89 1.14-3.69 2.202-9.956 2.07-12.206-.28-4.778-2.01-7.012-5.428-7.012h-1.29l-1.788 3.77-1.789 3.77-1.224-2.446c-.673-1.347-1.294-2.448-1.38-2.448-.086 0-.498.714-.915 1.588-.417.873-.839 1.587-.936 1.587-.098 0-.927-.952-1.842-2.117-.915-1.164-1.74-2.116-1.831-2.116-.092 0-.697.893-1.344 1.984-.647 1.092-1.24 1.983-1.316 1.981-.077-.002-.531-.716-1.01-1.587-.478-.872-.918-1.584-.976-1.584-.059 0-.679 1.07-1.379 2.378s-1.332 2.378-1.405 2.378c-.072 0-.84-1.678-1.703-3.727l-1.572-3.727-1.032.165c-2.392.383-4.288 2.042-5.15 4.509-1.045 2.993-.44 10.533 1.263 15.713.304.925.515 1.72.468 1.767-.047.046-1.036-.413-2.198-1.022z" id="path847" fill="#888" fill-opacity="1" stroke="#000" stroke-width="2.165" stroke-miterlimit="4" stroke-dasharray="none" stroke-opacity="1"/>
+                                                    </g>
+                                                    <g class="baron-eyes" transform="translate(-36.47 -80.315)" fill="#000" fill-opacity="1" stroke-miterlimit="4" stroke-dasharray="none" stroke-opacity="1">
+                                                    <ellipse class="baron-eye" cx="119.251" cy="156.293" rx="3.591" ry="3.496" stroke="#000" stroke-width="2.165"/>
+                                                    <ellipse class="baron-eye" cx="64.634" cy="156.199" rx="3.591" ry="3.496" stroke="#000" stroke-width="2.165"/>
+                                                    <circle class="baron-eye" cx="91.376" cy="134.843" r="7.611" stroke="none" stroke-width="3.007"/>
+                                                    <ellipse class="baron-eye" cx="91.376" cy="162.908" rx="4.972" ry="5.067" stroke="#000" stroke-width="2.614"/>
+                                                    <circle class="baron-eye" cx="71.438" cy="142.686" r="2.268" stroke="#000" stroke-width="2.165"/>
+                                                    <circle class="baron-eye" cx="82.966" cy="150.246" r="2.268" stroke="#000" stroke-width="2.165"/>
+                                                    <circle class="baron-eye" cx="100.116" cy="150.293" r="2.268" stroke="#000" stroke-width="2.165"/>
+                                                    <circle class="baron-eye" cx="112.259" cy="142.308" r="2.268" stroke="#000" stroke-width="2.165"/>
+                                                    <circle class="baron-eye" cx="75.17" cy="165.64" r="1.136" stroke="#000" stroke-width="2.165"/>
+                                                    <circle class="baron-eye" cx="108.645" cy="165.573" r="1.136" stroke="#000" stroke-width="2.165"/>
+                                                    </g>
+                                                </svg>
+                                                <p style="margin-left: 3px;">{{ userMatchStats['objectiveDmg'] }}</p>
+                                                <div class="stat-tooltip">
+                                                    <span class="stat-tooltip-text">Objective Damage</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="individual-damage-stat">
+                                            <div class="tur-damage-container">
+                                                <svg class="tur-damage-icon"xmlns="http://www.w3.org/2000/svg" width="198.667" height="198.667" viewBox="0 0 52.564 52.564" version="1.1" id="svg8">
+                                                    <g class="tower" transform="translate(-49.364 -81.82)">
+                                                    <path d="M56.176 133.84c-.334-.334-.437-3.943-.437-15.244 0-13.412-.056-14.868-.597-15.466-.56-.619-.56-.72 0-1.67.833-1.409.747-2.876-.326-5.556-.848-2.12-.89-2.465-.528-4.293.69-3.478 2.601-9.622 2.9-9.323.45.45 2.75 9.142 2.808 10.608.029.722-.362 2.492-.868 3.933-1.114 3.173-1.119 3.313-.15 4.624l.77 1.04-.77.82c-.73.777-.77 1.136-.77 6.882 0 3.335.091 6.063.202 6.063.111 0 .879-.397 1.706-.881l1.504-.882-.169-2.905c-.125-2.165-.348-3.148-.876-3.862-.6-.813-.673-1.284-.48-3.126.124-1.192.527-2.848.894-3.678.847-1.914 2.97-4.278 4.602-5.12l1.26-.651 2.016 1.07c2.167 1.15 2.77 1.126 3.572-.143 1.23-1.95 1.127-2.234-1.323-3.604-4.55-2.544-5.104-3.48-3.782-6.38.695-1.526 2.39-3.705 2.882-3.705.167 0 .084.525-.184 1.167-.268.641-.538 1.779-.6 2.528-.097 1.195.019 1.438.947 1.984.582.342 1.48.726 1.995.853.79.194 1.012.073 1.414-.77.938-1.966 5.404-2.43 7.502-.78.5.393.907.94.907 1.217 0 .709.785.628 2.637-.272 1.803-.876 1.907-1.265 1.071-4.019-.289-.952-.527-1.8-.529-1.886-.002-.084.492.312 1.099.882 1.334 1.253 2.407 3.459 2.417 4.969.01 1.345-1.575 2.873-4.44 4.277-1.206.592-1.902 1.156-1.902 1.542 0 1.154.693 2.429 1.528 2.81.701.319 1.155.2 2.806-.732 1.913-1.079 2.003-1.095 3.07-.543 2.938 1.52 5.139 4.996 5.603 8.85.372 3.09.047 3.459-1.615 1.839-2.759-2.688-5.82-3.117-8.911-1.25-2.34 1.414-3.995 3.741-4.992 7.024-.615 2.027-.715 3.081-.585 6.22.187 4.515 1.013 6.982 3.263 9.744 1.38 1.694 1.46 1.902.98 2.526-.286.374-.828 1.355-1.203 2.18l-.683 1.498h-7.908l-.77-1.675c-.423-.922-1.323-2.322-2-3.112l-1.23-1.437-.115-5.266c-.09-4.106-.249-5.538-.724-6.501-.335-.68-.74-1.87-.898-2.646l-.288-1.411-.452 2.527c-.257 1.44-.706 2.75-1.042 3.045-.325.285-2.258.911-4.295 1.392l-3.704.873-.177 7.018c-.168 6.694-.209 7.022-.886 7.119-.39.056-.906-.095-1.146-.335zm22.903-38.96l-.12-4.092 1.09.24c1.197.262 1.272.105.715-1.493-.439-1.259-1.742-1.828-1.742-.76 0 .533-.255.672-1.235.672-1.006 0-1.234-.133-1.234-.718 0-1.087-1.238-.287-1.727 1.116-.517 1.483-.55 1.426.757 1.3l1.146-.11-.12 3.968-.12 3.969h2.71l-.12-4.092zm6.613 33.963c-1.89-.998-3.521-3.057-4.582-5.783-1.12-2.88-1.147-8.215-.057-11.16 1.507-4.074 3.931-6.278 7.162-6.511 1.76-.128 2.306-.011 3.659.782 2.662 1.56 4.362 4.59 5.166 9.207.919 5.275-1.894 11.833-5.844 13.627-1.915.87-3.644.82-5.504-.162z" id="path871" fill="#000" stroke-width=".353"/>
+                                                    </g>
+                                                </svg>
+                                                <p style="margin-left: 3px;">{{ userMatchStats['turretDmg'] }}</p>
+                                                <div class="stat-tooltip">
+                                                    <span class="stat-tooltip-text">Turret Damage</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                {% endfor %}   
+            </div>     
+            <div class="summoner-match-tags">
+                {% for tags in summoner_tags %}
+                    <div class="summoner-tag-box">
+                        {% if tags['godTag'][0] == 'Virtuoso' %}
+                            <div class="summoner-tag">
+                                <div class="god-tag">
+                                    {{ tags['godTag'][0] }}
+                                    <div class="tag-tooltip">
+                                        <span class="tooltip-text">{{ tag_descriptions[tags['godTag'][0]] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="summoner-tag">
+                            {% for tag in tags['goodTags'] %}
+                                <div class="good-tag">
+                                    {{ tag }}
+                                    <div class="tag-tooltip">
+                                        <span class="tooltip-text">{{ tag_descriptions[tag] }}</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="summoner-tag">
+                            {% for tag in tags['badTags'] %}
+                                <div class="bad-tag">
+                                    {{ tag }}
+                                    <div class="tag-tooltip">
+                                        <span class="tooltip-text">{{ tag_descriptions[tag] }}</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="bottom-disclaimer" id="bottom-disclaimer">
+            <p style="color: #707393;font-family: 'Righteous', cursive;"><i>Winjhin isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games
+                or anyone officially involved in producing or<br> managing Riot Games properties. Riot Games, and all
+                associated properties are trademarks or registered trademarks of Riot Games, Inc.</i></p>
+        </div>
+        <script>
+            document.onreadystatechange = function() {
+                var state = document.readyState
+                if (state == 'interactive') {
+                    document.getElementById('navbar').style.visibility = "hidden";
+                    document.getElementById('contents').style.visibility = "hidden";
+                    document.getElementById('bottom-disclaimer').style.visibility = "hidden";
+                } else if (state == 'complete') {
+                    setTimeout(function() {
+                        document.getElementById('interactive');
+                        document.getElementById('loader').style.visibility = "hidden";
+                        document.getElementById('navbar').style.visibility = "visible";
+                        document.getElementById('contents').style.visibility = "visible";
+                        document.getElementById('bottom-disclaimer').style.visibility = "visible";
+                    }, 2000);
+                }
+            }
+
+            document.getElementById("defaultOpen").click();
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="text/javascript">
+
+        $(document).ready(function(){
+            $("#navbar-form").on("submit", function(){
+                $("#navbar-form-container").fadeOut();
+                $("#navbar-loader").fadeIn();
+            })
+        })
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,128 @@
+.obj-damage-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}         
+.baron-face path {
+    fill: #C7CAE5;
+    stroke: #262530;
+}
+.baron-eye {
+    fill: #262530;
+    stroke: #262530;
+}
+.gold-earned-icon {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+.gold-earned-icon ellipse {
+    fill: #31303e;
+    stroke: #C7CAE5;
+}
+.coin-top-layer ellipse, rect {
+    fill: #C7CAE5;
+    stroke: #C7CAE5;
+}
+.dollar-sign rect, path {
+    fill: #262530;
+    stroke: #262530;
+}
+.champ-damage-icon {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+.swords_r path {
+    fill: #C7CAE5;
+    stroke: #262530;
+}
+.tur-damage-icon {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+.tower path {
+    fill: #C7CAE5;
+    stroke: #262530;
+}
+.dragon-icon {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+.dragon path {
+    fill: #C7CAE5;
+    stroke: #262530;
+}
+.dragon-blue {
+    height: 1.2rem;
+    width: 1.2rem;
+}
+.dragon-blue path {
+    fill: #378cf9;
+    stroke: #262530;
+}
+.dragon-red {
+    height: 1.2rem;
+    width: 1.2rem;
+}
+.dragon-red path {
+    fill: #EE4E4E;
+    stroke: #262530;
+}
+.tower-blue {
+    height: 1.2rem;
+    width: 1.2rem;
+}
+.tower-blue path {
+    fill: #378cf9;
+    stroke: #262530;
+}
+.tower-red {
+    height: 1.2rem;
+    width: 1.2rem;
+}
+.tower-red path {
+    fill: #EE4E4E;
+    stroke: #262530;
+}
+.baron-face-blue {
+    height: 1.2rem;
+    width: 1.2rem;
+}
+.baron-face-blue path {
+    fill: #378cf9;
+    stroke: #262530;
+}
+.baron-face-red {
+    height: 1.2rem;
+    width: 1.2rem;
+}
+.baron-face-red path {
+    fill: #EE4E4E;
+    stroke: #262530;
+}
+.wardscore-icon {
+    height: 1rem;
+    width: 1rem;
+}
+.ward path {
+    fill: #C7CAE5;
+    stroke: #262530;
+}
+.top-icon {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+.top-highlighted path {
+    fill: #c8aa6e;
+    stroke: #c8aa6e;
+}
+.top-nonhighlighted path {
+    fill: #785a28;
+    stroke: #785a28;
+}
+.damage-taken-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+.damage-taken-icon path {
+    fill: #C7CAE5;
+    stroke: #262530;
+}

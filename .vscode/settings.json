@@ -1,0 +1,7 @@
+{
+    "editor.codeActionsOnSave": null,
+    "python.linting.pylintArgs": [
+        "--load-plugins",
+        "pylint-flask"
+    ]
+}
