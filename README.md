@@ -8,7 +8,7 @@ are available only to those who go through a rigorous application process, and t
 https://www.youtube.com/watch?v=Z2iW6nTvWss
 
 Challenges in development:
-- Development test API key is heavily rate-limited, so storing considerable account data for testing had to be done over a long period of time, and could not be done on more than a couple of accounts.
+- Development test API key is heavily rate-limited, so storing considerable amounts of account data for testing had to be done over a long period of time, and could not be done on more than a couple of accounts.
 - Keys used in the JSON data sent by the API have names that reference the game's current patch/version, so even some static files in the app have to constantly update, along with the game.
 - Placing value player performance is highly difficult and often subjective, so the grading criteria is far from perfect.
 - Some particular bits of the information returned by the API were consistently inaccurate, so I had to write a custom algorithm for them, instead.
