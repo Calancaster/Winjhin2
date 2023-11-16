@@ -1,6 +1,6 @@
 # Winjhin
 
-This is Winjhin, a third-party account statistics and match history website for the game League of Legends. The project was written entirely by me, from start to finish, with the exception of any images that were taken from the game asset tarball that the game's developer provides.
+This is Winjhin, a third-party account statistics and match history website for the game League of Legends. The project was written entirely by me, from start to finish, with the exception of any images that were taken from the game asset tarball that the game's developer provides. It was finished in December of 2020 and moved to Github much later.
 The app was written primarily in Python, and utilizes Flask. The app also uses a wrapper to communicate with the Riot Games API called 'pantheon'.
 
 While the app is fully-functioning in its current state, it cannot be readily exported and used, as an API key is required for it to actually perform its purpose. Unfortunately, the API keys that are given out by the developer
